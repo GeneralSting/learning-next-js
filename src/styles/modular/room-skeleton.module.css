@@ -1,0 +1,74 @@
+.skeletonContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.skeletonCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.skeletonTitle {
+  height: 28px; /* Matches your h2 font size */
+  width: 70%;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonDescription {
+  height: 16px;
+  width: 90%;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  margin-bottom: 0.75rem;
+  border-radius: 0.25rem;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonDescriptionShort {
+  height: 16px;
+  width: 70%;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  margin-bottom: 0.75rem;
+  border-radius: 0.25rem;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonLocation {
+  height: 16px;
+  width: 60%;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  margin-top: 1rem;
+  border-radius: 0.25rem;
+  animation: shimmer 1.5s infinite;
+  display: flex;
+  align-items: center;
+}
+
+.skeletonIcon {
+  width: 16px;
+  height: 16px;
+  background: #e5e7eb;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

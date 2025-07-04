@@ -1,13 +1,28 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #272d36;
+  --foreground: #ededed;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #272d36;
     --foreground: #ededed;
   }
+}
+
+/* globals.css */
+:root {
+  --background-primary: #ffffff;
+  --background-secondary: #f3f4f6;
+  --background-tertiary: #e5e7eb;
+  --text-primary: #111827;
+}
+
+[data-theme="dark"] {
+  --background-primary: #1f2937;
+  --background-secondary: #374151;
+  --background-tertiary: #4b5563;
+  --text-primary: #f9fafb;
 }
 
 html,
