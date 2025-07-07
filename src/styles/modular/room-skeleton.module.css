@@ -15,7 +15,17 @@
 }
 
 .skeletonTitle {
-  height: 28px; /* Matches your h2 font size */
+  height: 28px;
+  width: 70%;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonTitleSmall {
+  height: 20px;
   width: 70%;
   background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
   background-size: 200% 100%;

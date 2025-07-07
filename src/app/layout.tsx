@@ -34,7 +34,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header>
+          <header
+            style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.3)" }}
+          >
             <div
               style={{
                 display: "flex",

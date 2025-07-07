@@ -2,8 +2,8 @@ import Link from "next/link";
 import styles from "@/styles/modular/meeting-room-page.module.css";
 import { MeetingRoom } from "@/types/meetingRoom";
 import { getRoomById } from "@/services/meetingRooms";
-import LoadingSpinner from "@/components/loading-spinner";
 import MeetingRoomCard from "@/components/meeting-room-card";
+import { notFound } from "next/navigation";
 
 interface RoomPageProps {
   params: {
@@ -12,7 +12,7 @@ interface RoomPageProps {
 }
 
 export default async function RoomPage({ params }: RoomPageProps) {
-  const { roomId } = params;
+  const { roomId } = await params;
   let room: MeetingRoom | null = null;
   let error: string | null = null;
 
@@ -23,12 +23,8 @@ export default async function RoomPage({ params }: RoomPageProps) {
     error = err instanceof Error ? err.message : "Failed to load room";
   }
 
-  if (!room && !error) {
-    return (
-      <div className={styles.container}>
-        <LoadingSpinner />
-      </div>
-    );
+  if (!room) {
+    notFound();
   }
 
   if (error) {

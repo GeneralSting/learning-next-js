@@ -1,14 +1,15 @@
 import styles from "@/styles/modular/meeting-room-card.module.css";
+import { Skeleton } from "@mui/material";
 
 export default function MeetingRoomCardLoading() {
-  const status = "available";
+  const status = "default";
   const now = new Date();
 
   return (
     <div className={`${styles.card} ${styles[status]}`}>
       {/* Top row with name, refresh button, and time */}
       <div className={styles.header}>
-        <h2 className={styles.roomName}>{"room.name"}</h2>
+        <Skeleton variant="text" sx={{ fontSize: "2rem", width: "20%" }} />
         <div className={styles.headerRight}>
           <button className={styles.refreshButton}>
             <RefreshIcon />
@@ -25,7 +26,7 @@ export default function MeetingRoomCardLoading() {
         <div className={styles.leftColumn}>
           {/* Status badge */}
           <div className={styles.statusBadge}>
-            {status === "available" && "Available"}
+            <Skeleton variant="rectangular" width={80} height={30} />
           </div>
 
           {/* Room details */}

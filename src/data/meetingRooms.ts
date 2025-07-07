@@ -10,6 +10,7 @@ export const meetingRooms: MeetingRoom[] = [
     amenities: ["Projector", "Whiteboard", "Video Conferencing"],
     status: "available",
     meetings: [],
+    image: "/meeting-rooms/meeting-room-glass.webp",
   },
   {
     id: "lounge-room",
@@ -19,20 +20,21 @@ export const meetingRooms: MeetingRoom[] = [
     capacity: 6,
     amenities: ["Coffee Machine", "Sofa Seating", "TV Screen"],
     status: "available",
+    image: "/meeting-rooms/meeting-room-lounge.webp",
     meetings: [
       {
         id: "1",
         name: "test event",
-        startTime: new Date("2025-07-04T14:00:00"),
-        endTime: new Date("2025-07-04T15:00:00"),
+        startTime: new Date("2025-07-07T14:00:00"),
+        endTime: new Date("2025-07-07T15:00:00"),
         organizer: "john.doe@company.com",
       },
 
       {
         id: "2",
         name: "test event 2",
-        startTime: new Date("2025-07-04T11:00:00"),
-        endTime: new Date("2025-07-04T12:30:00"),
+        startTime: new Date("2025-07-07T11:00:00"),
+        endTime: new Date("2025-07-07T12:30:00"),
         organizer: "john.doe@company.com",
       },
     ],
@@ -46,6 +48,7 @@ export const meetingRooms: MeetingRoom[] = [
     amenities: ["Dimmable Lights", "Soundproofing", "Wireless Charging"],
     status: "available",
     meetings: [],
+    image: "/meeting-rooms/meeting-room-firefly.webp",
   },
   {
     id: "toorchwood",
@@ -56,5 +59,6 @@ export const meetingRooms: MeetingRoom[] = [
     amenities: ["4K TV", "Conference Phone", "Mini Fridge"],
     status: "available",
     meetings: [],
+    image: "/meeting-rooms/meeting-room-torchwood.webp",
   },
 ];

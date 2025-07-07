@@ -9,4 +9,5 @@ export interface MeetingRoom {
   amenities: string[];
   meetings: Meeting[];
   status: "available" | "pending" | "inUse";
+  image: string;
 }

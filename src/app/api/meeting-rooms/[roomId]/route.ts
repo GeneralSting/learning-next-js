@@ -5,11 +5,11 @@ export async function GET(
   request: Request,
   { params }: { params: { roomId: string } }
 ) {
-  const { roomId } = params;
+  const { roomId } = await params;
 
   try {
     // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const room = meetingRooms.find((room) => room.id === roomId);
 

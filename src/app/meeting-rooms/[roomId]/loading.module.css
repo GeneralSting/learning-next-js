@@ -1,0 +1,8 @@
+.roomSkeletonTitle {
+  height: 20px;
+  width: 20%;
+  background: linear-gradient(90deg, #1143a7 25%, #66be5a 50%, #e935c2 75%);
+  background-size: 200% 100%;
+  border-radius: 0.25rem;
+  animation: shimmer 1.5s infinite;
+}

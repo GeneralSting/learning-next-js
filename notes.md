@@ -1,70 +1,74 @@
-## Store project files outside of app
+# Next.js Learning Notes v.15
 
-- This strategy stores all application code in shared folders in the root of your project and keeps the app directory purely for routing purposes.
+## 📁 Project Structure
 
-## Opting specific segments into a layout
+- store Project Files Outside of app
+- store all application code in shared folders in the root of your project.
+- keep the app directory purely for routing purposes.
 
-- To opt specific routes into a layout, create a new route group (e.g. (shop)) and move the routes that share the same layout into the group (e.g. account and cart). The routes outside of the group will not share the layout (e.g. checkout).
+### 📦 Routing & Layouts
 
-By using Suspense, you get the benefits of:
+- opting Specific Segments into a Layout
+- create a route group (e.g. (shop)) and move routes that share a layout into that group (e.g. account, cart).
+- routes outside of the group (e.g. checkout) will not share the layout.
 
-Streaming Server Rendering - Progressively rendering HTML from the server to the client.
-Selective Hydration - React prioritizes what components to make interactive first based on user interaction.
+### 🔗 Linking and Navigating
 
----
-
-## Linking and Navigating
-
-### How navigation works
+#### How Navigation Works
 
 - server rendering
-- prefetching
-- streaming
-- client-side transition
+  - prefetching
+  - streaming
+  - client-side transitions
 
----
+### 🚀 Rendering & Server Components
 
-What is the React Server Component Payload (RSC)?
-The RSC Payload is a compact binary representation of the rendered React Server Components tree. It's used by React on the client to update the browser's DOM. The RSC Payload contains:
-The rendered result of Server Components
-Placeholders for where Client Components should be rendered and references to their JavaScript files
-Any props passed from a Server Component to a Client Component
+#### Benefits of Suspense
 
----
+- streaming Server Rendering: Progressively render HTML from the server.
+- selective Hydration: React prioritizes which components to hydrate first based on interaction.
 
-On the client (first load)
-Then, on the client:
+#### What is the RSC Payload?
 
-HTML is used to immediately show a fast non-interactive preview of the route to the user.
-RSC Payload is used to reconcile the Client and Server Component trees.
-JavaScript is used to hydrate Client Components and make the application interactive.
-What is hydration?
+The React Server Component (RSC) Payload is a compact binary representation of the rendered Server Component tree. It includes:
 
-Hydration is React's process for attaching event handlers to the DOM, to make the static HTML interactive.
+Rendered Server Component output
 
-Subsequent Navigations
-On subsequent navigations:
+Placeholders for Client Components
 
-The RSC Payload is prefetched and cached for instant navigation.
-Client Components are rendered entirely on the client, without the server-rendered HTML.
+References to JS files
 
----
+Props passed from Server to Client components
 
-Async components with Server Components
-Server Components introduce a new way to write Components using async/await. When you await in an async component, React will suspend and wait for the promise to resolve before resuming rendering. This works across server/client boundaries with streaming support for Suspense.
+Rendering Lifecycle
+On First Load (Client):
+Static HTML is displayed immediately.
 
-**You can even create a promise on the server, and await it on the client:**
+RSC Payload reconciles Client & Server trees.
+
+JavaScript hydrates Client Components.
+
+On Subsequent Navigations:
+RSC Payload is prefetched and cached.
+
+Client Components render entirely on the client (no server-rendered HTML).
+
+Hydration
+Hydration is the process by which React attaches event listeners to pre-rendered HTML, making it interactive.
+
+🧩 Async Components with Server Components
+React allows async/await in Server Components. When await is used, React suspends rendering until the promise resolves.
+
+Example:
+Server Component
 
 ```jsx
-// Server Component
 import db from "./database";
 
 async function Page({ id }) {
-  // Will suspend the Server Component.
   const note = await db.notes.get(id);
-
-  // NOTE: not awaited, will start here and await on the client.
   const commentsPromise = db.comments.get(note.id);
+
   return (
     <div>
       {note}
@@ -76,22 +80,78 @@ async function Page({ id }) {
 }
 ```
 
+Client Component
+
 ```jsx
-// Client Component
 "use client";
 import { use } from "react";
 
 function Comments({ commentsPromise }) {
-  // NOTE: this will resume the promise from the server.
-  // It will suspend until the data is available.
   const comments = use(commentsPromise);
-  return comments.map((commment) => <p>{comment}</p>);
+  return comments.map((comment) => <p>{comment}</p>);
 }
 ```
 
+## 🎨 Theming & UI Logic
 
-- dark mode
-  - theme provider extra easy - no logic needed
-  - theming is still same as react - themes required ?
+Dark Mode
+Easy to implement using a Theme Provider.
 
-- enforces you to separate the logic and only UI that uses that logic - the rest of component remains clean without logic
+No extra logic needed.
+
+Theming works like standard React.
+
+Logic Separation
+Encourages splitting logic (Server Component) and UI (Client Component).
+
+Keeps UI components clean.
+
+### 🧠 Context & State
+
+Context Providers
+React context does not work in Server Components.
+
+Use a Client Component to wrap context providers and accept children.
+
+Render providers deep in the tree for better performance.
+
+## 📦 3rd Party Libraries
+
+When building a component library, add "use client" to client-dependent entry points.
+
+Allows import into Server Components without needing wrappers.
+
+## 🛡️ Environment & Safety
+
+Preventing Environment Poisoning
+Only variables prefixed with \_NEXT_PUBLIC are exposed to the client.
+
+Use the server-only package to restrict usage in client components.
+
+Use the client-only package for client-specific logic (e.g., accessing window).
+
+## 📥 Streaming Implementation
+
+Two ways to implement streaming:
+
+loading.js: Wrap an entire page for loading fallback.
+
+<Suspense>: Wrap individual components.
+
+---
+
+Error boundaries don’t catch errors inside event handlers. They’re designed to catch errors during rendering to show a fallback UI instead of crashing the whole app.
+
+- In general, errors in event handlers or async code aren’t handled by error boundaries because they run after rendering.
+
+---
+
+Route Handlers can be nested anywhere inside the app directory, similar to page.js and layout.js. But there cannot be a route.js file at the same route segment level as page.js.
+
+```txt
+app/
+└── dashboard/
+    ├── page.js      ✅ defines a page (e.g., /dashboard)
+    └── route.js     ❌ Not allowed in the same folder as page.js
+
+```

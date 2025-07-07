@@ -12,6 +12,6 @@ export async function GET() {
           NextResponse.json({ error: "Failed to fetch rooms" }, { status: 500 })
         );
       }
-    }, 5000);
+    }, 2000);
   });
 }

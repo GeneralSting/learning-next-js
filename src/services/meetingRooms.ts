@@ -1,9 +1,10 @@
+import { API_MEETING_ROOM_PATH } from "@/data/apiRoutes";
 import { MeetingRoom } from "@/types/meetingRoom";
 
 const API_BASE_URL =
   typeof window === "undefined"
-    ? "http://localhost:3002/api/meeting-rooms" // For server-side
-    : "/api/meeting-rooms";
+    ? `${process.env.NEXT_PUBLIC_BASE_URL}${API_MEETING_ROOM_PATH}` // For server-side
+    : API_MEETING_ROOM_PATH;
 
 export const getAllRooms = async (): Promise<MeetingRoom[]> => {
   const response = await fetch(API_BASE_URL);

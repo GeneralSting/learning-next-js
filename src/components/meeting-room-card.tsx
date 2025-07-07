@@ -1,20 +1,50 @@
+"use client";
+
+import { useState } from "react";
 import { MeetingRoom } from "@/types/meetingRoom";
 import { getRoomStatus } from "@/utils/roomStatus";
 import styles from "@/styles/modular/meeting-room-card.module.css";
 import { Suspense } from "react";
 import LoadingSpinner from "./loading-spinner";
+import {
+  RefreshCwIcon,
+  ChevronDownIcon,
+  CalendarIcon,
+  MapPinIcon,
+  UsersIcon,
+  StarIcon,
+} from "lucide-react";
+import { Modal, Box, Button, Typography } from "@mui/material";
+import Image from "next/image";
 
 interface MeetingRoomCardProps {
   room: MeetingRoom;
   onRefresh?: () => void;
-  onReserve?: () => void;
+  onReserve?: (duration: number) => void;
 }
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: 500,
+  maxWidth: 800,
+  bgcolor: "#272d36",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
+
+const standardDurations = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 
 export default function MeetingRoomCard({
   room,
   onRefresh,
   onReserve,
 }: MeetingRoomCardProps) {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState<number | null>(20);
   const status = getRoomStatus(room.meetings);
   const now = new Date();
 
@@ -26,15 +56,59 @@ export default function MeetingRoomCard({
         new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
     )[0];
 
-  // Filter today's meetings for the calendar
-  const todaysMeetings = room.meetings.filter((meeting) => {
-    const meetingDate = new Date(meeting.startTime);
-    return (
-      meetingDate.getDate() === now.getDate() &&
-      meetingDate.getMonth() === now.getMonth() &&
-      meetingDate.getFullYear() === now.getFullYear()
-    );
-  });
+  // Calculate available time if pending
+  const minutesUntilNextMeeting = nextMeeting
+    ? Math.floor(
+        (new Date(nextMeeting.startTime).getTime() - now.getTime()) /
+          (1000 * 60)
+      )
+    : 0;
+
+  // Get available durations based on status
+  const getAvailableDurations = () => {
+    if (status !== "pending") return standardDurations;
+
+    const remainingTime = minutesUntilNextMeeting;
+    if (remainingTime < 5) return [];
+
+    // Filter standard durations that fit in remaining time
+    const available = standardDurations.filter((d) => d <= remainingTime);
+    // Add remaining time as last option if it's different
+    if (
+      available.length === 0 ||
+      available[available.length - 1] !== remainingTime
+    ) {
+      available.push(remainingTime);
+    }
+    return available;
+  };
+
+  console.log(room);
+
+  const availableDurations = getAvailableDurations();
+  const isTimeLimited =
+    status === "inUse" || (status === "pending" && minutesUntilNextMeeting < 5);
+
+  const handleOpenModal = () => {
+    if (!isTimeLimited) {
+      setOpenModal(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleDurationSelect = (minutes: number) => {
+    setSelectedDuration(minutes);
+    handleCloseModal();
+  };
+
+  const handleReserve = () => {
+    if (selectedDuration && onReserve) {
+      onReserve(selectedDuration);
+    }
+  };
 
   return (
     <div className={`${styles.card} ${styles[status]}`}>
@@ -44,7 +118,7 @@ export default function MeetingRoomCard({
         </Suspense>
         <div className={styles.headerRight}>
           <button onClick={onRefresh} className={styles.refreshButton}>
-            <RefreshIcon />
+            <RefreshCwIcon size={20} />
           </button>
           <div className={styles.currentTime}>
             {now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -58,51 +132,187 @@ export default function MeetingRoomCard({
         <div className={styles.leftColumn}>
           {/* Status badge */}
           <div className={styles.statusBadge}>
-            {status === "available" && "Available"}
-            {status === "pending" && "Pending"}
-            {status === "inUse" && "In Use"}
+            <div className={styles.statusGradient}></div>
+            <span>
+              {status === "available" && "Available"}
+              {status === "pending" && "Pending"}
+              {status === "inUse" &&
+                `In Use (${new Date(nextMeeting.startTime).toLocaleTimeString(
+                  [],
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+                    -
+                    ${new Date(nextMeeting.endTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })})`}
+            </span>
           </div>
+          <div className={styles.leftColumnPadding}>
+            <div className={styles.detailsSection}>
+              {/* Next meeting info */}
+              {nextMeeting && (
+                <div className={styles.detailRow}>
+                  <div className={styles.detailIcon}>
+                    <CalendarIcon size={24} />
+                  </div>
+                  <div className={styles.detailValue}>
+                    {status === "inUse" ? <>Current: </> : <>Next: </>}
+                    {nextMeeting.name}, duration:{" "}
+                    {new Date(nextMeeting.startTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                    -
+                    {new Date(nextMeeting.endTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
+                </div>
+              )}
 
-          {/* Next meeting info */}
-          {nextMeeting && (
-            <div className={styles.nextMeeting}>
-              <h3>Next Meeting</h3>
-              <p>{nextMeeting.name}</p>
-              <p>
-                {new Date(nextMeeting.startTime).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}{" "}
-                -
-                {new Date(nextMeeting.endTime).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
+              {/* Room details */}
+              <div className={styles.detailRow}>
+                <div className={styles.detailIcon}>
+                  <MapPinIcon size={24} />
+                </div>
+                <div className={styles.detailValue}>{room.location}</div>
+              </div>
+
+              <div className={styles.detailRow}>
+                <div className={styles.detailIcon}>
+                  <UsersIcon size={24} />
+                </div>
+                <div className={styles.detailValue}>
+                  Capacity: {room.capacity} people
+                </div>
+              </div>
+
+              {/* Amenities */}
+              <div className={styles.detailRow}>
+                <div className={styles.detailIcon}>
+                  <StarIcon size={24} />
+                </div>
+                <div className={styles.detailValue}>
+                  <ul className={styles.amenitiesList}>
+                    {room.amenities.map((amenity, index) => (
+                      <li key={index}>{amenity}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
-          )}
 
-          {/* Room details */}
-          <div className={styles.roomDetails}>
-            <h3>Details</h3>
-            <p>Location: {room.location}</p>
-            <p>Capacity: {room.capacity} people</p>
+            {/* Room image */}
+            {room.image && (
+              <Image
+                src={room.image}
+                alt={room.name}
+                width={500}
+                height={280}
+                className={styles.roomImage}
+              />
+            )}
+
+            {/* Reserve section */}
+            <div className={styles.reserveSection}>
+              <button
+                onClick={handleReserve}
+                className={styles.reserveButton}
+                disabled={isTimeLimited || !selectedDuration}
+              >
+                Reserve Room
+                {selectedDuration && (
+                  <span className={styles.durationBadge}>
+                    {selectedDuration} min
+                  </span>
+                )}
+              </button>
+
+              <button
+                onClick={handleOpenModal}
+                className={styles.timeSelectButton}
+                disabled={isTimeLimited}
+              >
+                <ChevronDownIcon size={16} />
+              </button>
+
+              {isTimeLimited && (
+                <div className={styles.timeLimitWarning}>
+                  {status === "inUse" ? (
+                    <>Currently in use</>
+                  ) : (
+                    <>Not enough time before next meeting</>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Time Selection Modal */}
+            <Modal
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="time-selection-modal"
+            >
+              <Box sx={modalStyle}>
+                <Typography variant="h6" component="h2" mb={2}>
+                  Select Meeting Duration{" "}
+                  {status === "pending" && (
+                    <span style={{ fontSize: "1rem" }}>
+                      (Next meeting starts in {minutesUntilNextMeeting} minutes)
+                    </span>
+                  )}
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "repeat(2, 1fr)",
+                      sm: "repeat(3, 1fr)",
+                    },
+                    gap: 2,
+                  }}
+                >
+                  {availableDurations.map((minutes) => (
+                    <Button
+                      key={minutes}
+                      fullWidth
+                      variant={
+                        selectedDuration === minutes ? "contained" : "outlined"
+                      }
+                      onClick={() => handleDurationSelect(minutes)}
+                      sx={{
+                        justifyContent: "flex-start",
+                        textTransform: "none",
+                      }}
+                      className={`${
+                        status === "available"
+                          ? styles["available-timeline"]
+                          : status === "pending"
+                          ? styles["pending-timeline"]
+                          : status === "inUse"
+                          ? styles["inUse-timeline"]
+                          : styles["default-timeline"]
+                      }`}
+                    >
+                      {minutes} minutes{" "}
+                      {minutes === minutesUntilNextMeeting &&
+                        status === "pending" && (
+                          <span style={{ fontSize: "1rem", marginLeft: "4px" }}>
+                            (remaining time)
+                          </span>
+                        )}
+                    </Button>
+                  ))}
+                </Box>
+              </Box>
+            </Modal>
           </div>
-
-          {/* Amenities */}
-          <div className={styles.amenities}>
-            <h3>Amenities</h3>
-            <ul>
-              {room.amenities.map((amenity, index) => (
-                <li key={index}>{amenity}</li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Reserve button */}
-          <button onClick={onReserve} className={styles.reserveButton}>
-            Reserve Room
-          </button>
         </div>
 
         {/* Right column (40%) - Calendar */}
@@ -111,7 +321,15 @@ export default function MeetingRoomCard({
           <div className={styles.calendar}>
             {/* Timeline indicator */}
             <div
-              className={styles.timeline}
+              className={`${styles.timeline} ${
+                status === "available"
+                  ? styles["available-timeline"]
+                  : status === "pending"
+                  ? styles["pending-timeline"]
+                  : status === "inUse"
+                  ? styles["inUse-timeline"]
+                  : styles["default-timeline"]
+              }`}
               style={{
                 top: `${
                   ((now.getHours() * 60 + now.getMinutes()) / 1440) * 100
@@ -130,7 +348,7 @@ export default function MeetingRoomCard({
             </div>
 
             {/* Meeting blocks */}
-            {todaysMeetings.map((meeting) => {
+            {room.meetings.map((meeting) => {
               const start = new Date(meeting.startTime);
               const end = new Date(meeting.endTime);
               const top =
@@ -167,21 +385,5 @@ export default function MeetingRoomCard({
         </div>
       </div>
     </div>
-  );
-}
-
-function RefreshIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M23 4v6h-6" />
-      <path d="M1 20v-6h6" />
-      <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-    </svg>
   );
 }
