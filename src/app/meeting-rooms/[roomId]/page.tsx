@@ -1,44 +1,43 @@
-import Link from "next/link";
-import styles from "@/styles/modular/meeting-room-page.module.css";
 import { MeetingRoom } from "@/types/meetingRoom";
 import { getRoomById } from "@/services/meetingRooms";
 import MeetingRoomCard from "@/components/meeting-room-card";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 interface RoomPageProps {
-  params: {
+  params: Promise<{
     roomId: string;
-  };
+  }>;
 }
 
+export const generateMetadata = async ({
+  params,
+}: RoomPageProps): Promise<Metadata> => {
+  const roomId = (await params).roomId;
+  const formattedTitle = roomId
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+  return {
+    title: `Meeting Room - ${formattedTitle}`,
+    description: `NextJS ${formattedTitle} Metadata description`,
+  };
+};
+
 export default async function RoomPage({ params }: RoomPageProps) {
-  const { roomId } = await params;
   let room: MeetingRoom | null = null;
-  let error: string | null = null;
 
   try {
+    const { roomId } = await params;
     room = await getRoomById(roomId);
+
+    if (!room) {
+      notFound();
+    }
+
+    return <MeetingRoomCard room={room} />;
   } catch (err) {
-    console.error("Error fetching room:", err);
-    error = err instanceof Error ? err.message : "Failed to load room";
+    console.error("Unexpected error fetching room:", err);
+    throw err;
   }
-
-  if (!room) {
-    notFound();
-  }
-
-  if (error) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.error}>
-          <p>{error}</p>
-          <Link href="/" className={styles.backLink}>
-            &larr; Back to all rooms
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  if (room) return <MeetingRoomCard room={room} />;
 }

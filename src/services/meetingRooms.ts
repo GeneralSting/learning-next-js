@@ -16,13 +16,15 @@ export const getAllRooms = async (): Promise<MeetingRoom[]> => {
   return response.json();
 };
 
-export const getRoomById = async (id: string): Promise<MeetingRoom> => {
+export const getRoomById = async (id: string): Promise<MeetingRoom | null> => {
   const response = await fetch(`${API_BASE_URL}/${id}`);
 
+  if (response.status === 404) {
+    return null; // Do not throw — let the page handle it with notFound()
+  }
+
   if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error("404 - Room not found");
-    }
+    throw new Error(`Failed to fetch room: ${response.statusText}`);
   }
 
   return response.json();

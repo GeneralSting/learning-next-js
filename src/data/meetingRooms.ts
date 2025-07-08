@@ -25,16 +25,16 @@ export const meetingRooms: MeetingRoom[] = [
       {
         id: "1",
         name: "test event",
-        startTime: new Date("2025-07-07T14:00:00"),
-        endTime: new Date("2025-07-07T15:00:00"),
+        startTime: new Date("2025-07-08T14:00:00"),
+        endTime: new Date("2025-07-08T15:00:00"),
         organizer: "john.doe@company.com",
       },
 
       {
         id: "2",
         name: "test event 2",
-        startTime: new Date("2025-07-07T11:00:00"),
-        endTime: new Date("2025-07-07T12:30:00"),
+        startTime: new Date("2025-07-08T12:00:00"),
+        endTime: new Date("2025-07-08T13:30:00"),
         organizer: "john.doe@company.com",
       },
     ],

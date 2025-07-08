@@ -112,7 +112,7 @@
 }
 
 .default .statusBadge {
-  background: linear-gradient(90deg, #22272e 0%, rgba(34, 39, 46, 0) 100%);
+  background: linear-gradient(90deg, #2196f3 0%, rgba(34, 39, 46, 0) 100%);
 }
 
 .available .statusBadge {
@@ -370,7 +370,8 @@
   font-size: 0.75rem;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 2px;
   color: white;
 }
@@ -379,4 +380,5 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-left: 4px;
 }

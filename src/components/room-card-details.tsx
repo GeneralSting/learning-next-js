@@ -41,11 +41,13 @@ export default function RoomCardDetails({
             {new Date(nextMeeting.startTime).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
+              hour12: false,
             })}{" "}
             -
             {new Date(nextMeeting.endTime).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
+              hour12: false,
             })}
           </p>
         </div>
