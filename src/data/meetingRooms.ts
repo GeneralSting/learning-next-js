@@ -8,7 +8,6 @@ export const meetingRooms: MeetingRoom[] = [
     location: "Floor 3, West Wing",
     capacity: 8,
     amenities: ["Projector", "Whiteboard", "Video Conferencing"],
-    status: "available",
     meetings: [],
     image: "/meeting-rooms/meeting-room-glass.webp",
   },
@@ -19,7 +18,6 @@ export const meetingRooms: MeetingRoom[] = [
     location: "Floor 2, Central Hub",
     capacity: 6,
     amenities: ["Coffee Machine", "Sofa Seating", "TV Screen"],
-    status: "available",
     image: "/meeting-rooms/meeting-room-lounge.webp",
     meetings: [
       {
@@ -46,7 +44,6 @@ export const meetingRooms: MeetingRoom[] = [
     location: "Floor 1, East Wing",
     capacity: 4,
     amenities: ["Dimmable Lights", "Soundproofing", "Wireless Charging"],
-    status: "available",
     meetings: [],
     image: "/meeting-rooms/meeting-room-firefly.webp",
   },
@@ -57,7 +54,6 @@ export const meetingRooms: MeetingRoom[] = [
     location: "Floor 4, North Wing",
     capacity: 12,
     amenities: ["4K TV", "Conference Phone", "Mini Fridge"],
-    status: "available",
     meetings: [],
     image: "/meeting-rooms/meeting-room-torchwood.webp",
   },

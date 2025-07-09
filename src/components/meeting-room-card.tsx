@@ -131,6 +131,7 @@ export default function MeetingRoomCard({
                 height={280}
                 className={styles.roomImage}
                 loading="eager" //LCP Image - shouldn't be lazy loaded
+                priority={true}
               />
             )}
 

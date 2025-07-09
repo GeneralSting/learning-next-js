@@ -8,6 +8,5 @@ export interface MeetingRoom {
   capacity: number;
   amenities: string[];
   meetings: Meeting[];
-  status: "available" | "pending" | "inUse";
   image: string;
 }

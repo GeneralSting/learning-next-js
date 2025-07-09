@@ -4,6 +4,8 @@ import { MeetingRoom } from "@/types/meetingRoom";
 import { HoverPrefetchLink } from "./hover-prefetch-link";
 import { MEETING_ROOM_PATH } from "@/data/routes";
 import { LocationIcon } from "./icons/location-icons";
+import { Event } from "@mui/icons-material";
+import MeetingRoomAvailability from "./meeting-room-availability";
 
 export default async function MeetingRoomsList() {
   let rooms: MeetingRoom[] = [];
@@ -29,9 +31,10 @@ export default async function MeetingRoomsList() {
               {room.location}
             </div>
             <div className={styles.roomLocation}>
-              <LocationIcon />
+              <Event sx={{ marginRight: "4px" }} />
               {`Today Meetings: ${room.meetings.length}`}
             </div>
+            <MeetingRoomAvailability meetingRoomEvents={room.meetings} />
           </div>
         </HoverPrefetchLink>
       ))}

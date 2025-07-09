@@ -20,7 +20,7 @@ export const getRoomById = async (id: string): Promise<MeetingRoom | null> => {
   const response = await fetch(`${API_BASE_URL}/${id}`);
 
   if (response.status === 404) {
-    return null; // Do not throw — let the page handle it with notFound()
+    return null;
   }
 
   if (!response.ok) {

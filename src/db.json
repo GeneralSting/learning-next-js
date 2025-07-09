@@ -1,0 +1,158 @@
+{
+  "messages": [
+    {
+      "id": "fd17",
+      "success": false,
+      "details": "Failed to fetch rooms: FAILED: Fetched all meeting rooms data",
+      "timestamp": "2025-07-09T07:36:15.046Z"
+    },
+    {
+      "id": "fced",
+      "success": false,
+      "details": "API Error: Failed to fetch room - Value is not JSON serializable",
+      "timestamp": "2025-07-09T11:12:06.553Z"
+    }
+  ],
+  "glass-room": {
+    "meetingRoom": {
+      "id": "glass-room",
+      "name": "Glass Room",
+      "description": "A modern transparent meeting space with natural lighting",
+      "location": "Floor 3, West Wing",
+      "capacity": 8,
+      "amenities": ["Projector", "Whiteboard", "Video Conferencing"],
+      "meetings": [],
+      "image": "/meeting-rooms/meeting-room-glass.webp"
+    },
+    "message": {
+      "success": true,
+      "details": "Fetched Glass Room Data"
+    }
+  },
+  "lounge-room": {
+    "meetingRoom": {
+      "id": "lounge-room",
+      "name": "Lounge Room",
+      "description": "Comfortable seating for informal meetings and brainstorming",
+      "location": "Floor 2, Central Hub",
+      "capacity": 6,
+      "amenities": ["Coffee Machine", "Sofa Seating", "TV Screen"],
+      "image": "/meeting-rooms/meeting-room-lounge.webp",
+      "meetings": [
+        {
+          "id": "1",
+          "name": "test event",
+          "startTime": "2025-07-09T09:00:00Z",
+          "endTime": "2025-07-09T10:00:00Z",
+          "organizer": "john.doe@company.com"
+        },
+        {
+          "id": "2",
+          "name": "test event 2",
+          "startTime": "2025-07-09T11:00:00Z",
+          "endTime": "2025-07-09T20:00:00Z",
+          "organizer": "john.doe@company.com"
+        }
+      ]
+    },
+    "message": {
+      "success": true,
+      "details": "Fetched Lounge Room Data"
+    }
+  },
+  "firefly": {
+    "meetingRoom": {
+      "id": "firefly",
+      "name": "Firefly",
+      "description": "Cozy meeting room with adjustable mood lighting",
+      "location": "Floor 1, East Wing",
+      "capacity": 4,
+      "amenities": ["Dimmable Lights", "Soundproofing", "Wireless Charging"],
+      "meetings": [],
+      "image": "/meeting-rooms/meeting-room-firefly.webp"
+    },
+    "message": {
+      "success": true,
+      "details": "Fetched Glass Room Data"
+    }
+  },
+  "torchwood": {
+    "meetingRoom": {
+      "id": "torchwood",
+      "name": "Torchwood",
+      "description": "Executive meeting room with premium amenities",
+      "location": "Floor 4, North Wing",
+      "capacity": 12,
+      "amenities": ["4K TV", "Conference Phone", "Mini Fridge"],
+      "meetings": [],
+      "image": "/meeting-rooms/meeting-room-torchwood.webp"
+    },
+    "message": {
+      "success": true,
+      "details": "Fetched Torchwood Data"
+    }
+  },
+  "meetingRoomsRequest": {
+    "meetingRooms": [
+      {
+        "id": "glass-room",
+        "name": "Glass Room",
+        "description": "A modern transparent meeting space with natural lighting",
+        "location": "Floor 3, West Wing",
+        "capacity": 8,
+        "amenities": ["Projector", "Whiteboard", "Video Conferencing"],
+        "meetings": [],
+        "image": "/meeting-rooms/meeting-room-glass.webp"
+      },
+      {
+        "id": "lounge-room",
+        "name": "Lounge Room",
+        "description": "Comfortable seating for informal meetings and brainstorming",
+        "location": "Floor 2, Central Hub",
+        "capacity": 6,
+        "amenities": ["Coffee Machine", "Sofa Seating", "TV Screen"],
+        "image": "/meeting-rooms/meeting-room-lounge.webp",
+        "meetings": [
+          {
+            "id": "1",
+            "name": "test event",
+            "startTime": "2025-07-09T09:00:00Z",
+            "endTime": "2025-07-09T10:00:00Z",
+            "organizer": "john.doe@company.com"
+          },
+          {
+            "id": "2",
+            "name": "test event 2",
+            "startTime": "2025-07-09T11:00:00Z",
+            "endTime": "2025-07-09T20:00:00Z",
+            "organizer": "john.doe@company.com"
+          }
+        ]
+      },
+      {
+        "id": "firefly",
+        "name": "Firefly",
+        "description": "Cozy meeting room with adjustable mood lighting",
+        "location": "Floor 1, East Wing",
+        "capacity": 4,
+        "amenities": ["Dimmable Lights", "Soundproofing", "Wireless Charging"],
+        "meetings": [],
+        "image": "/meeting-rooms/meeting-room-firefly.webp"
+      },
+      {
+        "id": "torchwood",
+        "name": "Torchwood",
+        "description": "Executive meeting room with premium amenities",
+        "location": "Floor 4, North Wing",
+        "capacity": 12,
+        "amenities": ["4K TV", "Conference Phone", "Mini Fridge"],
+        "meetings": [],
+        "image": "/meeting-rooms/meeting-room-torchwood.webp"
+      }
+    ],
+    "message": {
+      "success": true,
+      "details": "Fetched all meeting rooms data"
+    }
+  }
+}
