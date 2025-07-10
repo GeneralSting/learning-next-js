@@ -1,5 +1,5 @@
 import { MeetingRoom } from "@/types/meetingRoom";
-import { getRoomById } from "@/services/meetingRooms";
+import { getRoomById, reserveRoom } from "@/services/meetingRooms";
 import MeetingRoomCard from "@/components/meeting-room-card";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -27,6 +27,21 @@ export const generateMetadata = async ({
 export default async function RoomPage({ params }: RoomPageProps) {
   let room: MeetingRoom | null = null;
 
+  const handleRefresh = async () => {
+    "use server";
+
+    const { roomId } = await params;
+    return await getRoomById(roomId);
+  };
+
+  const handleReserve = async (room: MeetingRoom) => {
+    "use server";
+    const { roomId } = await params;
+    await reserveRoom(room);
+
+    return await getRoomById(roomId);
+  };
+
   try {
     const { roomId } = await params;
     room = await getRoomById(roomId);
@@ -35,7 +50,13 @@ export default async function RoomPage({ params }: RoomPageProps) {
       notFound();
     }
 
-    return <MeetingRoomCard room={room} />;
+    return (
+      <MeetingRoomCard
+        room={room}
+        onRefresh={handleRefresh}
+        onReserve={handleReserve}
+      />
+    );
   } catch (err) {
     console.error("Unexpected error fetching room:", err);
     throw err;

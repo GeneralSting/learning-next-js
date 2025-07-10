@@ -29,3 +29,26 @@ export const getRoomById = async (id: string): Promise<MeetingRoom | null> => {
 
   return response.json();
 };
+
+export const reserveRoom = async (room: MeetingRoom): Promise<MeetingRoom> => {
+  const response = await fetch(`http://localhost:3100/${room.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      meetingRoom: room,
+      message: {
+        success: true,
+        details: "Room reservation updated",
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to reserve room: ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  return result.meetingRoom;
+};

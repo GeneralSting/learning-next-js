@@ -11,6 +11,48 @@
       "success": false,
       "details": "API Error: Failed to fetch room - Value is not JSON serializable",
       "timestamp": "2025-07-09T11:12:06.553Z"
+    },
+    {
+      "id": "de0b",
+      "success": false,
+      "details": "API Error: Failed to create reservation - Cannot read properties of undefined (reading 'id')",
+      "timestamp": "2025-07-10T07:38:09.832Z"
+    },
+    {
+      "id": "ece0",
+      "success": false,
+      "details": "API Error: Failed to create reservation - Cannot read properties of undefined (reading 'id')",
+      "timestamp": "2025-07-10T07:38:58.216Z"
+    },
+    {
+      "id": "c881",
+      "success": false,
+      "details": "API Error: Failed to create reservation - Cannot read properties of undefined (reading 'id')",
+      "timestamp": "2025-07-10T07:39:58.363Z"
+    },
+    {
+      "id": "9b5f",
+      "success": false,
+      "details": "API Error: Failed to create reservation - Cannot read properties of undefined (reading 'id')",
+      "timestamp": "2025-07-10T07:41:27.808Z"
+    },
+    {
+      "id": "e06f",
+      "success": false,
+      "details": "API Error: Failed to create reservation - Cannot read properties of undefined (reading 'id')",
+      "timestamp": "2025-07-10T07:42:21.006Z"
+    },
+    {
+      "id": "3495",
+      "success": false,
+      "details": "Failed to create reservation for room ID: lounge-room",
+      "timestamp": "2025-07-10T07:46:56.656Z"
+    },
+    {
+      "id": "ca40",
+      "success": false,
+      "details": "Failed to create reservation for room ID: lounge-room",
+      "timestamp": "2025-07-10T07:51:25.580Z"
     }
   ],
   "glass-room": {
@@ -42,22 +84,22 @@
         {
           "id": "1",
           "name": "test event",
-          "startTime": "2025-07-09T09:00:00Z",
-          "endTime": "2025-07-09T10:00:00Z",
+          "startTime": "2025-07-10T10:00:00Z",
+          "endTime": "2025-07-10T10:30:00Z",
           "organizer": "john.doe@company.com"
         },
         {
           "id": "2",
-          "name": "test event 2",
-          "startTime": "2025-07-09T11:00:00Z",
-          "endTime": "2025-07-09T20:00:00Z",
+          "name": "test event 212312321",
+          "startTime": "2025-07-10T11:00:00Z",
+          "endTime": "2025-07-10T16:00:00Z",
           "organizer": "john.doe@company.com"
         }
       ]
     },
     "message": {
       "success": true,
-      "details": "Fetched Lounge Room Data"
+      "details": "Room reservation updated"
     }
   },
   "firefly": {

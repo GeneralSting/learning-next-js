@@ -4,8 +4,8 @@ export default function isCurrentlyOccupied(meetings: Meeting[]): {
   occupied: boolean;
   meeting?: Meeting;
 } {
-  console.log(meetings);
   const now = new Date();
+  console.log(meetings);
 
   for (const meeting of meetings) {
     const start = new Date(meeting.startTime);

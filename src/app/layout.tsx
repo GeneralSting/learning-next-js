@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/global/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/mode-toggle";
+// import { ThemeToggle } from "@/components/mode-toggle";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -51,9 +51,9 @@ export default function RootLayout({
               <Link href="/">
                 <nav>Meetings Schedular</nav>
               </Link>
-              <nav>
+              {/* <nav>
                 <ThemeToggle />
-              </nav>
+              </nav> */}
             </div>
           </header>
           <main>{children}</main>

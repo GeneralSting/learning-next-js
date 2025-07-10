@@ -6,6 +6,7 @@ import { Modal, Box, Button, Typography } from "@mui/material";
 import styles from "@/styles/modular/meeting-room-card.module.css";
 
 interface ReserveSectionProps {
+  isLoading?: boolean;
   isTimeLimited: boolean;
   selectedDuration: number | null;
   availableDurations: number[];
@@ -29,6 +30,7 @@ const modalStyle = {
 };
 
 export function ReserveSection({
+  isLoading = true,
   isTimeLimited,
   selectedDuration,
   availableDurations,
@@ -59,7 +61,7 @@ export function ReserveSection({
       <button
         onClick={onReserve}
         className={styles.reserveButton}
-        disabled={isTimeLimited || !selectedDuration}
+        disabled={isTimeLimited || !selectedDuration || isLoading}
       >
         Reserve Room
         {selectedDuration && (
@@ -70,7 +72,7 @@ export function ReserveSection({
       <button
         onClick={handleOpenModal}
         className={styles.timeSelectButton}
-        disabled={isTimeLimited}
+        disabled={isTimeLimited || isLoading}
       >
         <ChevronDownIcon size={16} />
       </button>
